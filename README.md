@@ -1,2 +1,2 @@
 # Virtual-Simulation-and-Comparison-between-Default-and-Register-Level-Programming
-This project explores the simulation and comparison of default vs. register-level programming using Arduino microcontrollers. 
+This project explores the simulation and comparison of default vs. register-level programming using Arduino microcontrollers. Boolean expressions were derived using K-maps, circuits were designed in Logisim, and simulations were conducted in Proteus. Results highlight the efficiency of register-level programming in execution time and memory optimization.

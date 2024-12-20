@@ -1,0 +1,69 @@
+int pin_I3 = 8;
+int pin_I2 = 9;
+int pin_I1 = 10;
+int pin_I0 = 11;
+
+int pin_O3 = 5;
+int pin_O2 = 4;
+int pin_O1 = 3;
+int pin_O0 = 2;
+
+void setup() {
+
+  Serial.begin(9600);
+
+  // initializing the input and outputs
+  // pinMode(pin_I3, INPUT);
+  // pinMode(pin_I2, INPUT);
+  // pinMode(pin_I1, INPUT);
+  // pinMode(pin_I0, INPUT);
+
+  DDRB |= B00000000;
+  
+
+  // pinMode(pin_O3, OUTPUT);
+  // pinMode(pin_O2, OUTPUT);
+  // pinMode(pin_O1, OUTPUT);
+  // pinMode(pin_O0, OUTPUT);
+  DDRD |= B00111100;
+}
+
+void loop() 
+{
+  long int t1 = micros();
+  // reading the values and storing it 
+  bool D = digitalRead(pin_I3);
+  bool C = digitalRead(pin_I2);
+  bool B = digitalRead(pin_I1);
+  bool A = digitalRead(pin_I0);
+
+  // I3 = D, I2 = C, I1 = B, I0 = A
+  // determing the outputs according to the equations 
+  bool O3_val = (!A & !B & !C) | (!A & !B & D) | (B & !C & D) | (B & C & !D) | (A & !B & C);
+  bool O2_val = (!A & !B & !D) | (A & !C & D) | (!A & B & C & D);
+  bool O1_val = (!A & D) | (C & D) | (A & B & !C);
+  bool O0_val = (!A & !B) | (!B & !C & !D) | (!A & !C & D) | (!B & C & D) | (A & B & !D);
+
+  // digitalWrite(pin_O3, O3_val);
+  // digitalWrite(pin_O2, O2_val);
+  // digitalWrite(pin_O1, O1_val);
+  // digitalWrite(pin_O0, O0_val);
+
+  if(O3_val == HIGH) PORTD |= B00100000;
+  else PORTD &= B11011111;
+
+  if(O2_val == HIGH) PORTD |= B00010000;
+  else PORTD &= B11101111;
+
+  if(O1_val == HIGH) PORTD |= B00001000;
+  else PORTD &= B11110111;
+
+  if(O0_val == HIGH) PORTD |=  B00000100;
+  else PORTD &= B11111011;
+
+  long int t2 = micros();
+  Serial.print("Time taken by the task: "); 
+  Serial.print(t2-t1); 
+  Serial.println(" micros");
+  delay(500);
+}
